@@ -2,8 +2,10 @@ package monopolySimulation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import enums.ChanceCards;
+import enums.CommunityChestCards;
 import enums.DeckType;
 
 /**
@@ -43,6 +45,36 @@ public class Card {
 	 */
 	public DeckType getCardDeckType() {
 		return cardDeckType;
+	}
+	
+	/**
+	 * Returns community deck.
+	 * 
+	 * @return Stack of cards
+	 */
+	public static Stack<Card> getCommunityChestDeck() {
+		CommunityChestCards[] cards = CommunityChestCards.values();
+		
+		Stack<Card> deck = new Stack<>();
+		for (CommunityChestCards card : cards) 
+			deck.add(new Card(card.toString(), DeckType.COMMUNITY));
+		
+		return deck;
+	}
+	
+	/**
+	 * Returns chance deck.
+	 * 
+	 * @return Stack of cards
+	 */
+	public static Stack<Card> getChanceDeck() {
+		ChanceCards[] cards = ChanceCards.values();
+		
+		Stack<Card> deck = new Stack<>();
+		for (ChanceCards card : cards) 
+			deck.add(new Card(card.toString(), DeckType.CHANCE));
+		
+		return deck;
 	}
 	
 	/**

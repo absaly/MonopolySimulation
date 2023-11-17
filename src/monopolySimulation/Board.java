@@ -1,24 +1,27 @@
 package monopolySimulation;
 
-import java.util.ArrayList;
+
+import java.util.Stack;
+import java.util.List;
 
 public class Board {
 	
-	private ArrayList<Card> chanceDeck;
-	private ArrayList<Card> communityDeck;
+	private Stack<Card> chanceDeck;
+	private Stack<Card> communityDeck;
 	private int[] properties;
-	private ArrayList<Card> chanceDiscardPile;
-	private ArrayList<Card> communityDiscard;
+	private Stack<Card> chanceDiscardPile;
+	private Stack<Card> communityDiscard;
 	
-	public Board(ArrayList<Card> chanceDeck, ArrayList<Card> communityDeck, int[] properties,
-			ArrayList<Card> chanceDiscardPile, ArrayList<Card> communityDiscard) {
-		this.chanceDeck = chanceDeck;
-		this.communityDeck = communityDeck;
+	public Board(int[] properties) {
+		this.chanceDeck = Card.getChanceDeck();
+		this.communityDeck = Card.getCommunityChestDeck();
 		this.properties = properties;
-		this.chanceDiscardPile = chanceDiscardPile;
-		this.communityDiscard = communityDiscard;
 		
 		// TODO
+	}
+	
+	public void addToChanceDiscardPile() {
+		chanceDiscardPile.push(chanceDeck.pop());
 	}
 	
 	public boolean checkChanceDeckEmpty() {
