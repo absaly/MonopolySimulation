@@ -54,7 +54,7 @@ public class Simulation {
 		 * gotten out of jail after three turns, assume you would have paid the $50 fine
 		 * on the fourth term and get out of jail on that turn
 		 */
-		strategyB();
+		//strategyB();
 	}
 
 	private static void strategyB() {
@@ -112,8 +112,9 @@ public class Simulation {
 					movePlayer(diceRoll);
 				}
 				printResults(n[i]);
+				Arrays.fill(board, 0);
 			}
-			Arrays.fill(board, 0);
+			
 		}
 	}
 
@@ -160,9 +161,9 @@ public class Simulation {
 					movePlayer(diceRoll);
 				}
 				printResults(n[i]);
+				Arrays.fill(board, 0);
 			}
 			
-			Arrays.fill(board, 0);
 		}
 	}
 
