@@ -1,22 +1,22 @@
 package monopolySimulation;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import edu.princeton.cs.algs4.KruskalMST;
+import edu.princeton.cs.algs4.Queue;
 import enums.ChanceCards;
 import enums.CommunityChestCards;
 import enums.DeckType;
 
-/**
- * Represents a card in the game Monopoly based of the card type.
- * 
- * @author Abbas Al-Younis, Tanner Durrant, Erin Mortensen, Trenton Stratton
- */
 public class Card {
-	
 	private String cardName;
 	private DeckType cardDeckType;
+	private CommunityChestCards communtiyCard;
+	private ChanceCards chanceCard;
+	
 	
 	/**
 	 * Constructs a card with its name and deck type.
@@ -47,32 +47,55 @@ public class Card {
 		return cardDeckType;
 	}
 	
+	public CommunityChestCards getCommuntiyCard() {
+		return communtiyCard;
+	}
+
+	public void setCommuntiyCard(CommunityChestCards communtiyCard) {
+		this.communtiyCard = communtiyCard;
+	}
+
+	public ChanceCards getChanceCard() {
+		return chanceCard;
+	}
+
+	public void setChanceCard(ChanceCards chanceCard) {
+		this.chanceCard = chanceCard;
+	}
+	
 	/**
 	 * Returns community deck.
 	 * 
 	 * @return Stack of cards
 	 */
-	public static Stack<Card> getCommunityChestDeck() {
+	public static Queue<Card> getCommunityChestDeck() {
 		CommunityChestCards[] cards = CommunityChestCards.values();
 		
-		Stack<Card> deck = new Stack<>();
-		for (CommunityChestCards card : cards) 
-			deck.add(new Card(card.toString(), DeckType.COMMUNITY));
+		Queue<Card> deck = new Queue<>();
+		for (CommunityChestCards card : cards) {
+			Card c = new Card(card.toString(), DeckType.COMMUNITY);
+			c.setCommuntiyCard(card);
+			deck.enqueue(c);
+		}
 		
 		return deck;
 	}
 	
+
 	/**
 	 * Returns chance deck.
 	 * 
 	 * @return Stack of cards
 	 */
-	public static Stack<Card> getChanceDeck() {
+	public static Queue<Card> getChanceDeck() {
 		ChanceCards[] cards = ChanceCards.values();
 		
-		Stack<Card> deck = new Stack<>();
-		for (ChanceCards card : cards) 
-			deck.add(new Card(card.toString(), DeckType.CHANCE));
+		Queue<Card> deck = new Queue<>();
+		for (ChanceCards card : cards)  {
+			Card c = new Card(card.toString(), DeckType.CHANCE);
+			c.setChanceCard(card);
+			deck.enqueue(c);
+		}
 		
 		return deck;
 	}
@@ -97,6 +120,5 @@ public class Card {
 		
 		System.out.println(chanceDeck);
 	}
-	
 	
 }
