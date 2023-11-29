@@ -318,15 +318,15 @@ public class Simulation {
 	private static void nearestUtil() {
 		while (current != UTILITY_1 && current != UTILITY_2) {
 			current = (current + 1) % BOARD_SIZE;
-			board[current]++;
 		}
+		board[current]++;
 	}
 
 	private static void nearestRail() {
 		while (current != RAIL_1 && current != RAIL_2 && current != RAIL_3 && current != RAIL_4) {
 			current = (current + 1) % BOARD_SIZE;
-			board[current]++;
 		}
+		board[current]++;
 	}
 
 	private static void drawCommunityCard() {
