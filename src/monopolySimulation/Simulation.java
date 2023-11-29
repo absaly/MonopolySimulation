@@ -100,6 +100,9 @@ public class Simulation {
 						}
 					}
 
+					int diceRoll = diceRoll() + diceRoll();
+					movePlayer(diceRoll);
+					
 					if (current == COMMUNITY_CHEST_1 || current == COMMUNITY_CHEST_2 || current == COMMUNITY_CHEST_3) {
 						drawCommunityCard();
 					}
@@ -107,9 +110,6 @@ public class Simulation {
 					if (current == CHANCE_1 || current == CHANCE_2 || current == CHANCE_3) {
 						drawChanceCard();
 					}
-
-					int diceRoll = diceRoll() + diceRoll();
-					movePlayer(diceRoll);
 				}
 				printResults(n[i]);
 				Arrays.fill(board, 0);
