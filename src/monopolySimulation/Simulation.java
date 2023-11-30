@@ -2,8 +2,10 @@ package monopolySimulation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import edu.princeton.cs.algs4.Knuth;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.StdRandom;
 import enums.ChanceCards;
@@ -38,6 +40,9 @@ public class Simulation {
 	static boolean inJail = false;
 	static int[] n = { 1_000, 10_000, 100_000, 1_000_000 };
 	static List<Card> hand = new ArrayList<>();
+	
+	static int chanceTimesDrawn = 0;
+	static int communityTimesDrawn = 0;
 
 	public static void main(String[] args) {
 		/*
@@ -54,7 +59,7 @@ public class Simulation {
 		 * gotten out of jail after three turns, assume you would have paid the $50 fine
 		 * on the fourth term and get out of jail on that turn
 		 */
-		//strategyB();
+		strategyB();
 	}
 
 	private static void strategyB() {
@@ -64,6 +69,14 @@ public class Simulation {
 				System.out.println("Strategy B for N = " + n[i]);
 				int doubleTurnCount = 0;
 				for (int turns = 0; turns < n[i]; turns++) {
+					
+					if (chanceTimesDrawn == chanceDeck.size()) {
+						shuffleChance();
+					}
+					
+					if (communityTimesDrawn == communityDeck.size()) {
+						shuffleCommunity();
+					}
 
 					// checks if player is in jail and looks for get out of jail cards
 					if (inJail) {
@@ -127,6 +140,15 @@ public class Simulation {
 			for (int i = 0; i < n.length; i++) {
 				System.out.println("Strategy A for N = " + n[i]);
 				for (int turns = 0; turns < n[i]; turns++) {
+					
+					if (chanceTimesDrawn == chanceDeck.size()) {
+						shuffleChance();
+					}
+					
+					if (communityTimesDrawn == communityDeck.size()) {
+						shuffleCommunity();
+					}
+					
 					// checks if player is in jail and looks for get out of jail cards
 					if (inJail) {
 						boolean usedGetOutOfJailCard = false;
@@ -178,6 +200,31 @@ public class Simulation {
 	    System.out.println();
 
 	}
+	
+	private static void shuffleCommunity() {
+		communityTimesDrawn = 0;
+		Card[] cs = new Card[communityDeck.size()];
+		for (int k = 0; k < cs.length; k++) {
+			cs[k] = communityDeck.dequeue();
+		}
+		Knuth.shuffle(cs);
+		for (Card c : cs) {
+			communityDeck.enqueue(c);
+		}
+	}
+
+	private static void shuffleChance() {
+		chanceTimesDrawn = 0;
+		Card[] cs = new Card[chanceDeck.size()];
+		for (int k = 0; k < cs.length; k++) {
+			cs[k] = chanceDeck.dequeue();
+		}
+		Knuth.shuffle(cs);
+		for (Card c : cs) {
+			chanceDeck.enqueue(c);
+		}
+	}
+
 
 	/**
 	 * Performs the action of community card.
@@ -340,6 +387,7 @@ public class Simulation {
 	}
 
 	private static void drawChanceCard() {
+		chanceTimesDrawn++;
 		Card chanceCard = chanceDeck.dequeue();
 
 		if (chanceCard.getChanceCard() == ChanceCards.GET_OUT_OF_JAIL)
