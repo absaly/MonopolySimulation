@@ -43,6 +43,8 @@ public class Simulation {
 	
 	static int chanceTimesDrawn = 0;
 	static int communityTimesDrawn = 0;
+	
+	static int threeDoubleDiceRollCounter = 0;
 
 	public static void main(String[] args) {
 		/*
@@ -109,12 +111,27 @@ public class Simulation {
 
 							if (doubleTurnCount == 3) {
 								inJail = false;
+								doubleTurnCount = 0;
 							}
 						}
 					}
 
-					int diceRoll = diceRoll() + diceRoll();
-					movePlayer(diceRoll);
+					int diceRoll1 = diceRoll();
+					int diceRoll2 = diceRoll();
+					
+					if (diceRoll1 == diceRoll2) {	
+						threeDoubleDiceRollCounter++;
+					}
+					
+					if (threeDoubleDiceRollCounter == 3) {
+						inJail = true;
+						current = JAIL;
+						board[current]++;
+						threeDoubleDiceRollCounter = 0;
+						continue;
+					}
+					
+					movePlayer(diceRoll1 + diceRoll2);
 					
 					if (current == COMMUNITY_CHEST_1 || current == COMMUNITY_CHEST_2 || current == COMMUNITY_CHEST_3) {
 						drawCommunityCard();
@@ -172,8 +189,23 @@ public class Simulation {
 					}
 
 					
-					int diceRoll = diceRoll() + diceRoll();
-					movePlayer(diceRoll);
+					int diceRoll1 = diceRoll();
+					int diceRoll2 = diceRoll();
+					
+					if (diceRoll1 == diceRoll2) {	
+						threeDoubleDiceRollCounter++;
+					}
+					
+					if (threeDoubleDiceRollCounter == 3) {
+						inJail = true;
+						current = JAIL;
+						board[current]++;
+						threeDoubleDiceRollCounter = 0;
+						continue;
+					}
+					
+					movePlayer(diceRoll1 + diceRoll2);
+					
 					if (current == COMMUNITY_CHEST_1 || current == COMMUNITY_CHEST_2 || current == COMMUNITY_CHEST_3) {
 						drawCommunityCard();
 					}
@@ -254,6 +286,7 @@ public class Simulation {
 		case GO_TO_JAIL:
 			inJail = true;
 			current = JAIL;
+			communityDeck.enqueue(c);
 			board[current]++;
 			break;
 		case HOLIDAY_FUND:
@@ -339,6 +372,7 @@ public class Simulation {
 		case GO_TO_JAIL:
 			inJail = true;
 			current = JAIL;
+			chanceDeck.enqueue(c);
 			board[current]++;
 			break;
 		case MAKE_REPAIRS_ON_PROPERTY:
