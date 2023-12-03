@@ -1,10 +1,12 @@
 package monopolySimulation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import edu.princeton.cs.algs4.Knuth;
 import edu.princeton.cs.algs4.KruskalMST;
 import edu.princeton.cs.algs4.Queue;
 import enums.ChanceCards;
@@ -97,6 +99,7 @@ public class Card {
 			deck.enqueue(c);
 		}
 		
+				
 		return deck;
 	}
 	

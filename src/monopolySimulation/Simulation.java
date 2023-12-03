@@ -45,7 +45,7 @@ public class Simulation {
 	static int communityTimesDrawn = 0;
 	
 	static int threeDoubleDiceRollCounter = 0;
-
+	
 	public static void main(String[] args) {
 		/*
 		 * Strategy A) If you have a Get Out of Jail Free card, you must use it
@@ -53,6 +53,7 @@ public class Simulation {
 		 * you would have paid the $50 fine and gotten out of jail immediately.
 		 */
 		strategyA();
+		
 
 		/*
 		 * Strategy B) If you have a Get Out of Jail Free card, you must use it
@@ -66,6 +67,10 @@ public class Simulation {
 
 	private static void strategyB() {
 		for (int currentTurns = 1; currentTurns <= 10; currentTurns++) {
+				
+			shuffleCommunity();
+			shuffleChance();
+
 			System.out.println("Strategy B simulation #" + currentTurns + " of 10");
 			for (int i = 0; i < n.length; i++) {
 				System.out.println("Strategy B for N = " + n[i]);
@@ -80,8 +85,10 @@ public class Simulation {
 						shuffleCommunity();
 					}
 
+
 					// checks if player is in jail and looks for get out of jail cards
 					if (inJail) {
+
 						boolean usedGetOutOfJailCard = false;
 
 						for (Card c : new ArrayList<>(hand)) {
@@ -100,6 +107,16 @@ public class Simulation {
 							for (int j = 0; j < 3; j++) {
 								int diceOne = diceRoll();
 								int diceTwo = diceRoll();
+								
+								//need to increment our turn count because rolling the dice counts as a turn
+								turns++;
+
+								//get to the end of the for loop so we can record it
+								if(turns >= n[i])
+								{
+									continue;
+								}
+								
 
 								if (diceOne == diceTwo) {
 									inJail = false;
@@ -118,9 +135,13 @@ public class Simulation {
 
 					int diceRoll1 = diceRoll();
 					int diceRoll2 = diceRoll();
-					
+										
 					if (diceRoll1 == diceRoll2) {	
 						threeDoubleDiceRollCounter++;
+					}
+					else
+					{
+						threeDoubleDiceRollCounter = 0;  //doubles need to be rolled consecutively
 					}
 					
 					if (threeDoubleDiceRollCounter == 3) {
@@ -142,7 +163,16 @@ public class Simulation {
 					}
 				}
 				printResults(n[i]);
+				//reset for next game
 				Arrays.fill(board, 0);
+				current = 0;
+				inJail = false;
+				hand = new ArrayList<>();
+				chanceDeck = Card.getChanceDeck();
+				communityDeck = Card.getCommunityChestDeck();
+				chanceTimesDrawn = 0;
+				communityTimesDrawn = 0;
+				threeDoubleDiceRollCounter = 0;
 			}
 			
 		}
@@ -153,11 +183,13 @@ public class Simulation {
 	 */
 	private static void strategyA() {
 		for (int currentTurns = 1; currentTurns <= 10; currentTurns++) {
+			shuffleCommunity(); //shuffle decks at beginning of game
+			shuffleChance();
 			System.out.println("Strategy A simulation #" + currentTurns + " of 10");
 			for (int i = 0; i < n.length; i++) {
 				System.out.println("Strategy A for N = " + n[i]);
 				for (int turns = 0; turns < n[i]; turns++) {
-					
+
 					if (chanceTimesDrawn == chanceDeck.size()) {
 						shuffleChance();
 					}
@@ -191,9 +223,13 @@ public class Simulation {
 					
 					int diceRoll1 = diceRoll();
 					int diceRoll2 = diceRoll();
-					
+															
 					if (diceRoll1 == diceRoll2) {	
 						threeDoubleDiceRollCounter++;
+					}
+					else
+					{
+						threeDoubleDiceRollCounter = 0;
 					}
 					
 					if (threeDoubleDiceRollCounter == 3) {
@@ -216,7 +252,19 @@ public class Simulation {
 
 				}
 				printResults(n[i]);
+				
+				/*
+				 * Need to reset game for next iteration
+				 */
 				Arrays.fill(board, 0);
+				current = 0;
+				inJail = false;
+				hand = new ArrayList<>();
+				chanceDeck = Card.getChanceDeck();
+				communityDeck = Card.getCommunityChestDeck();				
+				chanceTimesDrawn = 0;
+				communityTimesDrawn = 0;
+				threeDoubleDiceRollCounter = 0;
 			}
 			
 		}
@@ -236,6 +284,7 @@ public class Simulation {
 	private static void shuffleCommunity() {
 		communityTimesDrawn = 0;
 		Card[] cs = new Card[communityDeck.size()];
+		
 		for (int k = 0; k < cs.length; k++) {
 			cs[k] = communityDeck.dequeue();
 		}
@@ -413,7 +462,7 @@ public class Simulation {
 
 	private static void drawCommunityCard() {
 		Card communityCard = communityDeck.dequeue();
-
+	
 		if (communityCard.getCommuntiyCard() == CommunityChestCards.GET_OUT_OF_JAIL)
 			hand.add(communityCard);
 		else
@@ -449,6 +498,17 @@ public class Simulation {
 	 */
 	private static int diceRoll() {
 		return StdRandom.uniformInt(1, 7);
+	}
+	
+	private static void printBoard()
+	{
+		for(int property = 0; property < board.length; property++)
+		{
+			
+				System.out.println(property + " : " + board[property]);
+		
+			
+		}
 	}
 
 }
