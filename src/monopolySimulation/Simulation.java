@@ -1,5 +1,7 @@
 package monopolySimulation;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,6 +48,8 @@ public class Simulation {
 	
 	static int threeDoubleDiceRollCounter = 0;
 	
+	static StringBuilder sb = new StringBuilder();
+	
 	public static void main(String[] args) {
 		/*
 		 * Strategy A) If you have a Get Out of Jail Free card, you must use it
@@ -53,8 +57,15 @@ public class Simulation {
 		 * you would have paid the $50 fine and gotten out of jail immediately.
 		 */
 		strategyA();
+		try (FileWriter fw = new FileWriter("src/monopolySimulation/csvData/StrategyA.csv")) {
+			fw.append(sb.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-
+		// clear string builder
+		sb = new StringBuilder();
+		
 		/*
 		 * Strategy B) If you have a Get Out of Jail Free card, you must use it
 		 * immediately. If you don’t have the card, then try to roll doubles for your
@@ -63,6 +74,11 @@ public class Simulation {
 		 * on the fourth term and get out of jail on that turn
 		 */
 		strategyB();
+		try (FileWriter fw = new FileWriter("src/monopolySimulation/csvData/StrategyB.csv")) {
+			fw.append(sb.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void strategyB() {
@@ -74,6 +90,7 @@ public class Simulation {
 			System.out.println("Strategy B simulation #" + currentTurns + " of 10");
 			for (int i = 0; i < n.length; i++) {
 				System.out.println("Strategy B for N = " + n[i]);
+				sb.append("Strategy B for N = " + n[i] + "\n");
 				int doubleTurnCount = 0;
 				for (int turns = 0; turns < n[i]; turns++) {
 					
@@ -112,8 +129,7 @@ public class Simulation {
 								turns++;
 
 								//get to the end of the for loop so we can record it
-								if(turns >= n[i])
-								{
+								if(turns >= n[i]) {
 									continue;
 								}
 								
@@ -188,6 +204,7 @@ public class Simulation {
 			System.out.println("Strategy A simulation #" + currentTurns + " of 10");
 			for (int i = 0; i < n.length; i++) {
 				System.out.println("Strategy A for N = " + n[i]);
+				sb.append("Strategy A for N = " + n[i] + "\n");
 				for (int turns = 0; turns < n[i]; turns++) {
 
 					if (chanceTimesDrawn == chanceDeck.size()) {
@@ -276,6 +293,7 @@ public class Simulation {
 	    	double percentage = ((double) board[i] / totalTurns * 100);
 	    	String formattedPercentage = String.format("%.2f", percentage);
 	        System.out.println("Spot " + (i+1) + ": " + board[i] + " Percentage: " + formattedPercentage + "%");
+	        sb.append(board[i]+",").append(formattedPercentage + "%\n");
 	    }
 	    System.out.println();
 
