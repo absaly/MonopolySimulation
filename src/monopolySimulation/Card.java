@@ -49,18 +49,38 @@ public class Card {
 		return cardDeckType;
 	}
 	
+	/**
+	 * Returns a community chest card.
+	 * 
+	 * @return community card
+	 */
 	public CommunityChestCards getCommuntiyCard() {
 		return communtiyCard;
 	}
 
+	/**
+	 * Sets the community card.
+	 * 
+	 * @param communtiyCard
+	 */
 	public void setCommuntiyCard(CommunityChestCards communtiyCard) {
 		this.communtiyCard = communtiyCard;
 	}
 
+	/**
+	 * Returns chance card.
+	 * 
+	 * @return chance card
+	 */
 	public ChanceCards getChanceCard() {
 		return chanceCard;
 	}
 
+	/**
+	 * Sets the chance card.
+	 * 
+	 * @param chanceCard
+	 */
 	public void setChanceCard(ChanceCards chanceCard) {
 		this.chanceCard = chanceCard;
 	}
